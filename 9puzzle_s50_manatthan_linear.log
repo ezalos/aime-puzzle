@@ -1,0 +1,120 @@
+0
+Queue of states:            3
+Total nb states generated:  4
+A* cycle number:            2
+launch_Astar 0.00016913004219532013
+
+1
+Queue of states:            9055
+Total nb states generated:  30712
+A* cycle number:            21658
+launch_Astar 11.967285713006277
+
+2
+Queue of states:            139
+Total nb states generated:  399
+A* cycle number:            261
+launch_Astar 0.01829455600818619
+
+3
+Queue of states:            836
+Total nb states generated:  2400
+A* cycle number:            1565
+launch_Astar 0.11677881504874676
+
+4
+Queue of states:            1
+Total nb states generated:  1
+A* cycle number:            1
+launch_Astar 7.51490006223321e-05
+
+5
+Queue of states:            84
+Total nb states generated:  221
+A* cycle number:            138
+launch_Astar 0.005064630997367203
+
+6
+Queue of states:            918
+Total nb states generated:  2782
+A* cycle number:            1865
+launch_Astar 0.16251390101388097
+
+7
+Queue of states:            227
+Total nb states generated:  576
+A* cycle number:            350
+launch_Astar 0.016014769033063203
+
+8
+Queue of states:            66
+Total nb states generated:  164
+A* cycle number:            99
+launch_Astar 0.0036864669527858496
+
+9
+Queue of states:            37
+Total nb states generated:  90
+A* cycle number:            54
+launch_Astar 0.0020811440190300345
+
+10
+Queue of states:            604
+Total nb states generated:  1777
+A* cycle number:            1174
+launch_Astar 0.07247776095755398
+
+11
+Queue of states:            541
+Total nb states generated:  1443
+A* cycle number:            903
+launch_Astar 0.054101802001241595
+
+12
+Queue of states:            13
+Total nb states generated:  30
+A* cycle number:            18
+launch_Astar 0.0007696879911236465
+
+13
+Queue of states:            1764
+Total nb states generated:  5286
+A* cycle number:            3523
+launch_Astar 0.4556236279895529
+
+14
+Queue of states:            165
+Total nb states generated:  451
+A* cycle number:            287
+launch_Astar 0.011540550971403718
+
+15
+Queue of states:            30
+Total nb states generated:  73
+A* cycle number:            44
+launch_Astar 0.0024332519969902933
+
+16
+Queue of states:            248
+Total nb states generated:  694
+A* cycle number:            447
+launch_Astar 0.02376532001653686
+
+17
+Queue of states:            12
+Total nb states generated:  28
+A* cycle number:            17
+launch_Astar 0.000695591967087239
+
+18
+Queue of states:            1216
+Total nb states generated:  3175
+A* cycle number:            1960
+launch_Astar 0.16566977300681174
+
+19
+Queue of states:            110
+Total nb states generated:  303
+A* cycle number:            194
+launch_Astar 0.007229945971630514
+

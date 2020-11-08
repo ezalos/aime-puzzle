@@ -1,8 +1,9 @@
 import random
 from npuzzle import *
-from heuristics import *
 import DATA
+from heuristics import *
 from colors import *
+import time
 
 def fill_line(puzzle, index, dir):
 	up, left = get_dir(dir)
@@ -38,8 +39,19 @@ def get_index_map(solution):
 	rev = [0] * len(solution)
 	for i, v in enumerate(solution):
 		rev[v] = i
-	rev.sort()
 	return rev
+
+def benchmark(func):
+    """
+    Un décorateur qui affiche le temps qu'une fonction met à s'éxécuter
+    """
+    import time
+    def wrapper(*args, **kwargs):
+        t = time.perf_counter()
+        res = func(*args, **kwargs)
+        print(func.__name__, time.perf_counter()-t)
+        return res
+    return wrapper
 
 class Solver():
 	def __init__(self, DATA, puzzle=None):
@@ -47,32 +59,46 @@ class Solver():
 			self.puzzle = puzzle
 		else:
 			self.puzzle = generate()
+		self.original_puzzle = copy.deepcopy(self.puzzle)
 		DATA.solution = generate_solution()
 		DATA.index_map = get_index_map(DATA.solution)
+		self.statistics = []
 		# print(DATA.index_map)
 		self.big_queue = []
 		self.launch_Astar()
 
+	@benchmark
 	def launch_Astar(self):
 		tt_cost = lambda x: x.total_cost
 		self.big_queue = []
 		self.big_queue.append(NPuzzle(self.puzzle))
 
-		while len(self.big_queue):
+		state_studied = 0
+		loop_nb = 0
+		end = False
+		while len(self.big_queue) and end == False:
 		# for i in range(3):
-			print(len(self.big_queue))
-			print(self.big_queue[0])
+			loop_nb += 1
+			# if True:
+			# 	print(self.big_queue[0])
 			for dir in range(4):
 				child = self.big_queue[0].do_move(dir)
 				if child != None:
+					state_studied += 1
 					self.big_queue.append(child)
 					if child.is_game_over():
-						print("GGGGGGGG")
-						print(child)
-						sys.exit()
+						# print("GGGGGGGG")
+						# print("Total states studied: ", state_studied)
+						# print("Was originally: ", self.original_puzzle)
+						# print(child)
+						end = True
+						break
 			del self.big_queue[0]
 
 			self.big_queue.sort(key=tt_cost)
+		print("Queue of states:            {}".format(len(self.big_queue)))
+		print("Total nb states generated:  {}".format(state_studied))
+		print("A* cycle number:            {}".format(loop_nb))
 
 
 	def __str__(self):

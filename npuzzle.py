@@ -40,6 +40,7 @@ class NPuzzle():
 			self.zero = puzzle.index(0)
 		self.end = self.is_game_over()
 		self.history = history
+		self.puzzle_cost = puzzle_cost
 		# print("Zero: ", self.zero)
 		# print("HISTORY: ", history, self.history)
 		if not history:
@@ -106,7 +107,6 @@ class NPuzzle():
 	def is_game_over(self):
 		if self.puzzle != DATA.solution:
 				return False
-		print("GG")
 		return True
 
 	def __str__(self):
@@ -131,7 +131,7 @@ class NPuzzle():
 				board += "\n"
 		board += RESET
 		board += PURPLE
-		board += str(self.history)
+		board += "{:>3d} ".format(len(self.history)) + str(self.history)
 		board += RESET + "\n"
 		board += RED
 		board += "COST IS :" + str(self.total_cost)
