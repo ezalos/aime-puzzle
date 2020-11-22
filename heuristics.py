@@ -1,5 +1,6 @@
 import DATA
 import math
+from bpm import GFG
 
 # 123
 # 804
@@ -19,10 +20,12 @@ def linear_conflict(a, b):
 		s = DATA.n * DATA.n
 		linear_conflict.mem = [[-1 for i in range(s)] for j in range(s)]
 	if linear_conflict.mem[a][b] == -1:
-		same_col = lambda a, b: a % DATA.n == b % DATA.n
-		same_row = lambda a, b: int(a / DATA.n) == int(b / DATA.n)
-		inside_row = lambda a, ga, b: (int(a / DATA.n) <= int(b / DATA.n) <= int(ga / DATA.n)) or (int(a / DATA.n) >= int(b / DATA.n) >= int(ga / DATA.n))
-		inside_col = lambda a, ga, b: (a % DATA.n <= b % DATA.n <= ga % DATA.n) or (a % DATA.n >= b % DATA.n >= ga % DATA.n)
+		col = lambda a: a % DATA.n
+		row = lambda a: int(a / DATA.n)
+		same_col = lambda a, b: col(a) == col(b)
+		same_row = lambda a, b: row(a) == row(b)
+		inside_row = lambda a, ga, b: (row(a) <= row(b) <= row(ga)) or (row(a) >= row(b) >= row(ga))
+		inside_col = lambda a, ga, b: (col(a) <= col(b) <= col(ga)) or (col(a) >= col(b) >= col(ga))
 		conflict = 0
 		if (same_col(a, b) and same_col(a_goal, b_goal)):
 			if inside_col(a, a_goal, b) or inside_col(b, b_goal, a):
@@ -33,6 +36,22 @@ def linear_conflict(a, b):
 		linear_conflict.mem[a][b] = conflict
 	return linear_conflict.mem[a][b]
 
+
+
+
+def conflict_table(puzzle, partition):
+	adj_matrix = [[0] * len(partition)] * len(partition)
+	for idx_1, val_1 in enumerate(partition):
+		for idx_2, val_2 in enumerate(partition):
+			if val_1 < val_2:
+				adj_matrix[idx_1][idx_2] = linear_conflict(puzzle[val_1], puzzle[val_2])
+				adj_matrix[idx_2][idx_1] = adj_matrix[idx_1][idx_2]
+	print(adj_matrix)
+	g = GFG(adj_matrix)
+	val = g.maxBPM()
+	print(val)
+	return val * 2
+
 @static_vars(mem=None)
 def compute_manhattan(a, i):
 	b = DATA.index_map[a]
@@ -41,7 +60,8 @@ def compute_manhattan(a, i):
 		s = DATA.n * DATA.n
 		compute_manhattan.mem = [[-1 for i in range(s)] for j in range(s)]
 	if compute_manhattan.mem[a][b] == -1:
-		conflict = linear_conflict(a, b)
+		# conflict = linear_conflict(a, b)
+		conflict = 0
 		# print("a: ", a)
 		# print("b: ", b)
 		y_delta = int(abs(a - b) / DATA.n)

@@ -79,8 +79,9 @@ class Solver():
 		while len(self.big_queue) and end == False:
 		# for i in range(3):
 			loop_nb += 1
-			# if True:
-			# 	print(self.big_queue[0])
+			if True:
+				print("\033[0;0H")
+				print(self.big_queue[0])
 			for dir in range(4):
 				child = self.big_queue[0].do_move(dir)
 				if child != None:

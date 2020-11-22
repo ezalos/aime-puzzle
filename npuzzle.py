@@ -31,6 +31,34 @@ def compute_puzzle_cost(puzzle):
 
 	return puzzle_cost
 
+def swap_tiles(puzzle, a, b):
+	tmp = puzzle[a]
+	puzzle[a] = puzzle[b]
+	puzzle[b] = tmp
+
+
+def compute_partition(npuzzle):
+	partition_list = [[0, 1, 3, 6], [2, 5, 7, 8]]
+	max_cost = -1
+	for partition in partition_list:
+		manhattan_cost = [0] * len(partition)
+		for ii, i in enumerate(partition):
+			if npuzzle.puzzle[i] != 0:
+				manhattan_cost[ii] = compute_manhattan(npuzzle.puzzle[i], i)
+		cost_m = 0
+		for elem in manhattan_cost:
+			cost_m += elem
+		cost_g = len(npuzzle.history)
+		swap_tiles(npuzzle.puzzle, 4, npuzzle.zero)
+		cost_l = conflict_table(npuzzle.puzzle, [0, 1, 3, 6])
+		swap_tiles(npuzzle.puzzle, 4, npuzzle.zero)
+		if cost_m + cost_g + cost_l > max_cost:
+			max_cost = cost_m + cost_g + cost_l
+	return max_cost
+
+
+
+
 class NPuzzle():
 	def __init__(self, puzzle, puzzle_cost=None, total_cost=0, history=[], zero=None):
 		self.puzzle = puzzle
@@ -43,23 +71,33 @@ class NPuzzle():
 		self.puzzle_cost = puzzle_cost
 		# print("Zero: ", self.zero)
 		# print("HISTORY: ", history, self.history)
-		if not history:
-			self.puzzle_cost = compute_puzzle_cost(puzzle)
-			# print("puzzle_cost: ", self.puzzle_cost)
-			self.total_cost = 0
-			for i in self.puzzle_cost:
-				self.total_cost += i
-			# print("total_cost: ", self.total_cost)
-		else:
-			self.total_cost = total_cost + 1
-			self.puzzle_cost = puzzle_cost
-			self.total_cost -= self.puzzle_cost[self.zero]
-			self.puzzle_cost[self.zero] = 0
+		self.total_cost = compute_partition(self)
 
-			old_zero = move_index(self.zero, (self.history[-1] + 2) % 4)
-			self.puzzle_cost[old_zero] = compute_manhattan(self.puzzle_cost[old_zero], old_zero)
-
-			self.total_cost += self.puzzle_cost[old_zero]
+		# if not history:
+		# 	self.puzzle_cost = compute_puzzle_cost(puzzle)
+		# 	# print("puzzle_cost: ", self.puzzle_cost)
+		# 	self.total_cost = 0
+		# 	for i in self.puzzle_cost:
+		# 		self.total_cost += i
+		# 	# print("total_cost: ", self.total_cost)
+		# else:
+		# 	self.total_cost = total_cost + 1
+		# 	self.puzzle_cost = puzzle_cost
+		# 	self.total_cost -= self.puzzle_cost[self.zero]
+		# 	self.puzzle_cost[self.zero] = 0
+		#
+		# 	old_zero = move_index(self.zero, (self.history[-1] + 2) % 4)
+		# 	self.puzzle_cost[old_zero] = compute_manhattan(self.puzzle_cost[old_zero], old_zero)
+		#
+		# 	self.total_cost += self.puzzle_cost[old_zero]
+		# old_zero = self.puzzle[4]
+		# self.puzzle[self.zero] = self.puzzle[4]
+		# self.puzzle[4] = 0
+		# linear_g1 = conflict_table(self.puzzle, [0, 1, 3, 6])
+		# linear_g2 = conflict_table(self.puzzle, [2, 5, 7, 8])
+		# self.puzzle[4] = old_zero
+		# self.puzzle[self.zero] = 0
+		# self.linear_conflict = linear_g1 if linear_g1 > linear_g2 else linear_g2
 
 
 	def heuristic(self, index, func):
